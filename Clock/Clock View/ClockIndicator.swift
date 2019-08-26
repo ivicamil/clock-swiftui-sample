@@ -37,6 +37,14 @@ struct ClockIndicator: View {
             case .second: return Angle(degrees: Double(time.seconds) * 360 / 60)
             }
         }
+        
+        func baseRadiusFactor(for time: ClockModel) -> CGFloat {
+            switch self {
+            case .hour: return 0.1
+            case .minute: return 0.1
+            case .second: return 0.05
+            }
+        }
     }
     
     let type: `Type`
@@ -45,6 +53,12 @@ struct ClockIndicator: View {
     
     var body: some View {
         GeometryReader { geometry in
+            Path { path in
+                let c = self.center(of: geometry.size)
+                let baseRadius = 0.5 * self.type.baseRadiusFactor(for: self.time) * min(geometry.size.width, geometry.size.height)
+                path.addArc(center: c, radius: baseRadius, startAngle: Angle(degrees: 0), endAngle: Angle(degrees: 360), clockwise: true)
+            }
+            .fill(self.type.color)
             Path { path in
                 let c = self.center(of: geometry.size)
                 path.move(to: c)

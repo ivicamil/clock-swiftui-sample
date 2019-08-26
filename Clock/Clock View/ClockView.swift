@@ -18,10 +18,8 @@ struct ClockView : View {
         ZStack {
             Circle().stroke(Color.primary)
             ClockMarks()
-            Circle().relativeSize(width: hourPointerBaseRadius, height: hourPointerBaseRadius)
             ClockIndicator(type: .hour, time: time)
             ClockIndicator(type: .minute, time: time)
-            Circle().fill(Color.red).relativeSize(width: secondPointerBaseRadius, height: secondPointerBaseRadius)
             ClockIndicator(type: .second, time: time)
         }
         .padding()
